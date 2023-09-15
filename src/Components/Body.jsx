@@ -13,6 +13,13 @@ function Body(props) {
     const [donVi, setDonVi] = useState();
     const [congViec, setCongViec] = useState();
     const [maNvXoa, setMaNvXoa] = useState();
+    const [sua, setSua] = useState(false);
+    const [idKH, setIdKH] = useState();
+    const [tenKH, setTenKH] = useState();
+    const [tenDC, setTenDC] = useState();
+    const [sdtKH, setSdtKH] = useState();
+
+
 
 
     const fetchaddress = async () => {
@@ -53,13 +60,18 @@ function Body(props) {
             alert('Xóa thất bại')
     };
 
-    const suaChamcong = async (manv) => {
+
+    const suaChamcong = () => {
+        setSua(!sua)
+    }
+
+    const suaChamcongAPI = async (manv) => {
         const res = await getAddress.update({
-            id_khach_hang: manv,
+            id_khach_hang: idKH,
             id_dia_chi: manv,
-            ten_dia_chi: manv,
-            ten_khach_hang: manv,
-            sdt_khach_hang: '0987654567'
+            ten_dia_chi: tenDC,
+            ten_khach_hang: tenKH,
+            sdt_khach_hang: sdtKH,
         })
         if (res !== null) {
             fetchaddress()
@@ -138,7 +150,7 @@ function Body(props) {
                     <label>
                         Mã nhân viên <input name="manhanvien" onChange={(event) => setMaNv(event.target.value)} style={{ border: '2px solid' }} />
                     </label>
-                    <button style={{ border: '2px solid', marginLeft: '5px' }} onClick={submitChamCongVao} >Chấm công</button>
+                    <button style={{ border: '2px solid', marginLeft: '5px', backgroundColor: 'cyan' }} onClick={submitChamCongVao} >Chấm công</button>
 
                 </div> : ('')
             }
@@ -155,30 +167,64 @@ function Body(props) {
                     <label>
                         Công việc đã làm <input name="myInput" style={{ border: '2px solid' }} onChange={(event) => setCongViec(event.target.value)} />
                     </label>
-                    <button style={{ border: '2px solid', marginLeft: '5px' }} onClick={submitChamCongRa} >Chấm công</button>
+                    <button style={{ border: '2px solid', marginLeft: '5px', backgroundColor: 'cyan' }} onClick={submitChamCongRa} >Chấm công</button>
 
                 </div> : ('')
             }
+
 
             {address && display ?
                 address.map((address, index) => (
                     <div style={{ backgroundColor: 'gray', padding: '1px', margin: '10px' }} key={index}>
 
+
                         <div>
-                            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center' }}>{address.id_khach_hang}</h1>
-                            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center' }}>{address.id_dia_chi}</h1>
-                            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center' }}>{address.ten_khach_hang}</h1>
-                            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center' }}>{address.ten_dia_chi}</h1>
+                            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center' }}>ID địa chỉ : {address.id_dia_chi}</h1>
+                            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center' }}>ID khách hàng : {address.id_khach_hang}</h1>
+                            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center' }}>Tên khách hàng : {address.ten_khach_hang}</h1>
+                            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center' }}>Tên địa chỉ : {address.ten_dia_chi}</h1>
+                            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center' }}>SĐT Khách hàng : {address.sdt_khach_hang}</h1>
+
 
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'center', margin: '10px' }}>
+                        {sua ? <div>
+                            <label> ID khách hàng
+                                <input name="donvi" style={{ border: '2px solid' }} onChange={(event) => setIdKH(event.target.value)} />
+
+
+                            </label>
+                            <label> Tên khách hàng
+                                <input name="donvi" style={{ border: '2px solid' }} onChange={(event) => setTenKH(event.target.value)} />
+
+
+                            </label>
+                            <label> Tên địa chỉ
+                                <input name="donvi" style={{ border: '2px solid' }} onChange={(event) => setTenDC(event.target.value)} />
+
+
+                            </label>
+                            <label> SĐT
+                                <input name="donvi" style={{ border: '2px solid' }} onChange={(event) => setSdtKH(event.target.value)} />
+
+
+                            </label>
+
+
+                            <button style={{ margin: '10px', backgroundColor: 'yellow', minHeight: '50px', minWidth: '100px' }} onClick={() => suaChamcongAPI(address.id_dia_chi)}>Sửa </button>
+
+
+
+                        </div> : ('')}
+
+                        <div style={{ display: 'flex', justifyContent: 'center', margin: '10px', backgroundColor: 'red' }}>
                             <button style={{ display: 'flex', textAlign: 'center', alignItems: 'center' }} onClick={() => deleteChamcong(address.id_dia_chi)}>Xóa</button>
 
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'center', margin: '10px' }}>
-                            <button style={{ display: 'flex', textAlign: 'center', alignItems: 'center' }} onClick={() => suaChamcong(address.id_khach_hang)}>Sửa</button>
+                        <div style={{ display: 'flex', justifyContent: 'center', margin: '10px', backgroundColor: 'green' }}>
+                            <button style={{ display: 'flex', textAlign: 'center', alignItems: 'center' }} onClick={() => suaChamcong()}>Sửa</button>
 
                         </div>
+
 
                     </div>
                 )) : ('')

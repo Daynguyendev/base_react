@@ -7,8 +7,10 @@ Footer.propTypes = {
 
 function Footer(props) {
     return (
-        <div>
-            <h1 style={{ backgroundColor: 'white', fontSize: '50px', display: 'flex', justifyContent: 'center', backgroundColor: 'white', minHeight: '200px' }}>Footer</h1>
+        <div >
+            <p style={{ backgroundColor: 'white', display: 'flex', justifyContent: 'center', backgroundColor: 'white' }}>Nguyễn Ngọc Đầy</p>
+            <p style={{ backgroundColor: 'white', display: 'flex', justifyContent: 'center', backgroundColor: 'white' }}>0943877796</p>
+            <p style={{ backgroundColor: 'white', display: 'flex', justifyContent: 'center', backgroundColor: 'white', minHeight: '200px' }}>Daynguyendev@gmail.com</p>
         </div>
     );
 }
